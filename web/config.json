@@ -1,0 +1,10 @@
+{
+    "messages": [
+        {
+            "path": "ressources/messages/francais.json"
+        },
+        {
+            "path": "ressources/messages/anglais.json"
+        }
+    ]
+}

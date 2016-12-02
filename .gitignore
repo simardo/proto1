@@ -4,3 +4,6 @@
 *.js
 *.map
 tsconfig.json
+web/.vscode/launch.json
+web/.vscode/settings.json
+web/.vscode/tasks.json
