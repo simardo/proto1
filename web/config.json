@@ -4,7 +4,11 @@
             "path": "ressources/messages/francais.json"
         },
         {
-            "path": "ressources/messages/anglais.json"
+            "path": "ressources/messages/english.json"
         }
-    ]
+    ],
+    "main": {
+        "name": "myMainModule",
+        "path": "modules/main"
+    }
 }
