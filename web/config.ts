@@ -1,27 +1,40 @@
-export class MessagePath {
-    public path: string;
+export interface MessagePath {
+    language: string;
+    path: string;
 }
 
-export class MainModule {
-    public name: string;
-    public path: string;
+export interface MainModule {
+    name: string;
+    path: string;
+    defaultLanguage: string;
+}
+
+export interface ConfigStatic {
+    messages: Array<MessagePath>;
+    main: MainModule;
 }
 
 export class Config {
-    public messages: Array<MessagePath>;
+    public messages: Object = {};
     public main: MainModule;
 
     public static loadFromJson(value: string): Config {
-        var configStatic: Config = <Config>JSON.parse(value);
+        var configStatic: ConfigStatic = <ConfigStatic>JSON.parse(value);
         return new Config(configStatic);
     }
 
-    private constructor(configStatic: Config) {
-        this.messages = configStatic.messages;
+    private constructor(configStatic: ConfigStatic) {
+        for (let message of configStatic.messages) {
+            this.messages[message.language] = message;
+        }
         this.main = configStatic.main;
     }
 
-    public toString(): string {
-        return this.messages.map(message => message.path).join(",");
+    public getLanguagePath(language: string): string {
+        var result: string = this.main.defaultLanguage;
+        if (this.messages.hasOwnProperty(language)) {
+            result = (<MessagePath>this.messages[language]).path;
+        }
+        return result;
     }
 }

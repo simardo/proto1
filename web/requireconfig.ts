@@ -2,6 +2,7 @@
 
 var config: RequireConfig = {
     waitSeconds: 15
+    //shim
 }
 
 require.config(config);
