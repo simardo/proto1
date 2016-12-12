@@ -11,6 +11,5 @@ export class TitleService {
     }
 
     private onLocationChange(): void {
-        alert("change");
     }
 }

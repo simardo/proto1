@@ -2,10 +2,12 @@
 
 /// <amd-dependency path="vendors/angular/angular" />
 /// <amd-dependency path="vendors/angular/angular-route" />
+/// <amd-dependency path="vendors/openlayers/ol" />
 
-import {TitleService} from "modules/titleService";
-import {TitleDirective} from "modules/titleDirective";
-import {Routes} from "modules/routes";
+import { TitleService } from "modules/titleservice";
+import { TitleDirective } from "modules/titledirective";
+import { CalendarDirective } from "modules/timeline/calendardirective";
+import { Routes } from "modules/routes";
 
 export const MAIN_MODULE_NAME: string = "myMainModule";
 
@@ -15,8 +17,8 @@ var myModule: ng.IModule = angular.module(MAIN_MODULE_NAME, [
 
 myModule.service(TitleService.NAME, TitleService.FACTORY);
 myModule.directive(TitleDirective.NAME, TitleDirective.FACTORY);
+myModule.directive(CalendarDirective.NAME, CalendarDirective.FACTORY);
 myModule.config(Routes.config);
 
 myModule.run(["$http", ($http) => {
-    alert("module loaded!");
 }]);

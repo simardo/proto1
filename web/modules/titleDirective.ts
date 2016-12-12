@@ -1,12 +1,11 @@
 /// <reference path="../vendors/angular/angular.d.ts" />
 
-import {TitleService} from "modules/titleService";
+import { TitleService } from "modules/titleService";
 
 class TitleController {
     public static FACTORY: ng.Injectable<ng.IControllerConstructor> = [TitleService.NAME, TitleController];
 
-    constructor (private titleService: TitleService) {
-        console.log("tc");
+    constructor(private titleService: TitleService) {
     }
 }
 
