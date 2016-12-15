@@ -76,8 +76,30 @@ var schedule = {
     }]
 };
 
+var today = {
+    'type': 'FeatureCollection',
+    'crs': {
+        'type': 'name',
+        'properties': {
+            'name': 'EPSG:3857'
+        }
+    },
+    'features': [{
+        'type': 'Feature',
+        'properties': {
+            'name': "Aujourd'hui"
+        },
+        'geometry': {
+            'type': 'LineString',
+            'coordinates': [[3000e3, 1e6], [3000e3, -1e6]]
+        }
+    }]
+};
+
 class CalendarController {
     public static FACTORY: ng.Injectable<ng.IControllerConstructor> = [CalendarController];
+
+    private _layerSchedule: ol.layer.Vector;
 
     constructor() {
         var sourceInscription = new ol.source.Vector({
@@ -86,6 +108,10 @@ class CalendarController {
 
         var sourceSchedule = new ol.source.Vector({
             features: (new ol.format.GeoJSON()).readFeatures(schedule)
+        });
+
+        var sourceToday = new ol.source.Vector({
+            features: (new ol.format.GeoJSON()).readFeatures(today)
         });
 
         var layerInscription = new ol.layer.Vector({
@@ -98,14 +124,31 @@ class CalendarController {
             style: this.getStylesSchedule
         });
 
+        layerSchedule.setVisible(false);
+        this._layerSchedule = layerSchedule;
+
+        var layerToday = new ol.layer.Vector({
+            source: sourceToday,
+            style: this.getStylesToday
+        });
+
         var map = new ol.Map({
-            layers: [layerInscription, layerSchedule],
+            layers: [layerInscription, layerSchedule, layerToday],
             target: 'map',
             view: new ol.View({
-                center: [0, 3000000],
-                zoom: 2
+                center: [10e6, 0],
+                zoom: 2/*,
+                extent: [10e6, -3e6, 15e6, 3e6]*/
             })
         });
+
+        map.on("moveend", (e) => this.moveend(e));
+    }
+
+    private moveend(event: ol.MapEvent): void {
+        if (this._layerSchedule != null) {
+            this._layerSchedule.setVisible(event.map.getView().getZoom() >= 3);
+        }
     }
 
     private getStylesInscription(feature, resolution): ol.style.Style[] {
@@ -159,7 +202,7 @@ class CalendarController {
                 }),
                 text: new ol.style.Text({
                     font: '10px sans-serif',
-                    text: resolution < 10000 ? feature.get("name"): "",
+                    text: resolution < 10000 ? feature.get("name") : "",
                     offsetY: -15
                 })
             }),
@@ -175,6 +218,32 @@ class CalendarController {
                     var coordinates = (<any>feature.getGeometry()).getCoordinates()[0];
                     return new ol.geom.Point(coordinates);
                 }
+            })
+        ];
+    }
+
+    private getStylesToday(feature, resolution): ol.style.Style[] {
+        console.debug(resolution);
+        return [
+            new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'orange',
+                    width: 1
+                }),
+                fill: new ol.style.Fill({
+                    color: 'orange'
+                }),
+                text: new ol.style.Text({
+                    font: '10px sans-serif',
+                    text: feature.get("name"),
+                    offsetY: -35,
+                    stroke: new ol.style.Stroke({
+                        color: 'orange'
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'orange'
+                    })
+                })
             })
         ];
     }
