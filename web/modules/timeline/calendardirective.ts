@@ -87,11 +87,21 @@ var today = {
     'features': [{
         'type': 'Feature',
         'properties': {
-            'name': "Aujourd'hui"
+            'name': ""
         },
         'geometry': {
             'type': 'LineString',
             'coordinates': [[3000e3, 1e6], [3000e3, -1e6]]
+        }
+    },
+    {
+        'type': 'Feature',
+        'properties': {
+            'name': "Aujourd'hui"
+        },
+        'geometry': {
+            'type': 'Point',
+            'coordinates': [3000e3, 1e6]
         }
     }]
 };
@@ -208,7 +218,7 @@ class CalendarController {
             }),
             new ol.style.Style({
                 image: new ol.style.Circle({
-                    radius: 5,
+                    radius: 3,
                     fill: new ol.style.Fill({
                         color: 'navy'
                     })
@@ -236,7 +246,7 @@ class CalendarController {
                 text: new ol.style.Text({
                     font: '10px sans-serif',
                     text: feature.get("name"),
-                    offsetY: -35,
+                    offsetY: -10,
                     stroke: new ol.style.Stroke({
                         color: 'orange'
                     }),
