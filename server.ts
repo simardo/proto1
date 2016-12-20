@@ -7,6 +7,7 @@ class Main {
         var app: express.Application = express();
 
         app.use("/", express.static("web"));
+        app.use("/impl", express.static("webimpl"));
 
         var server = app.listen(3000, () => {
             var host: string = server.address().address;

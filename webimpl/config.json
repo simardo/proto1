@@ -1,0 +1,17 @@
+{
+    "messages": [
+        {
+            "language": "fr",
+            "path": "ressources/messages/francais.json"
+        },
+        {
+            "language": "en",
+            "path": "ressources/messages/english.json"
+        }
+    ],
+    "main": {
+        "name": "myMainModule",
+        "path": "modules/mainmodule",
+        "defaultLanguage": "en"
+    }
+}
